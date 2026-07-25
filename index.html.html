@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Breadboard Reference Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c2a20;
+    --bg-alt:#11362a;
+    --bg-alt-2:#153f31;
+    --line:#2a5443;
+    --silk:#eef1e7;
+    --muted:#84a99a;
+    --muted-dim:#5f8878;
+    --copper:#c98a4b;
+    --copper-bright:#e2a562;
+    --rail-pos:#d94f42;
+    --rail-neg:#3f7fc4;
+    --hole:#0a2018;
+    --hole-lit:#e2a562;
+    --maxw:1120px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(238,241,231,0.045) 1px, transparent 1px);
+    background-size:26px 26px;
+    color:var(--silk);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif; margin:0;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit;}
+  ::selection{background:var(--copper); color:var(--bg);}
+  :focus-visible{outline:2px solid var(--copper-bright); outline-offset:3px;}
+
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+
+  /* NAV */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(12,42,32,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav .wrap{display:flex; align-items:center; justify-content:space-between; height:60px;}
+  .nav-logo{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:14px; letter-spacing:0.03em; color:var(--copper-bright);}
+  .nav-logo span{color:var(--muted);}
+  .nav-links{display:flex; gap:26px; list-style:none; margin:0; padding:0; font-size:13px; font-family:'JetBrains Mono',monospace;}
+  .nav-links a{text-decoration:none; color:var(--muted); transition:color .15s;}
+  .nav-links a:hover{color:var(--silk);}
+  .nav-toggle{display:none;}
+  @media (max-width:760px){
+    .nav-links{display:none;}
+  }
+
+  /* HERO */
+  .hero{padding:76px 0 40px;}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.12em;
+    color:var(--copper-bright); text-transform:uppercase; margin:0 0 18px;
+  }
+  .hero h1{
+    font-size:clamp(38px,6vw,68px); line-height:1.02; font-weight:700;
+    max-width:820px; letter-spacing:-0.01em;
+  }
+  .hero-sub{
+    max-width:560px; font-size:17px; line-height:1.6; color:var(--muted);
+    margin:22px 0 0;
+  }
+
+  .board-shell{
+    margin-top:52px; border:1px solid var(--line); border-radius:14px;
+    background:linear-gradient(180deg, var(--bg-alt), var(--bg-alt-2));
+    padding:26px 22px 20px; overflow-x:auto;
+    box-shadow:0 30px 60px -30px rgba(0,0,0,0.6);
+  }
+  .board-inner{min-width:760px;}
+  .rail-row{display:grid; gap:5px; margin-bottom:6px;}
+  .rail-label{
+    font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted-dim);
+    display:flex; align-items:center; gap:6px; margin-bottom:4px; letter-spacing:0.05em;
+  }
+  .rail-label .dot{width:7px; height:7px; border-radius:50%; display:inline-block;}
+  .dot.pos{background:var(--rail-pos);}
+  .dot.neg{background:var(--rail-neg);}
+
+  .hole{
+    width:14px; height:14px; border-radius:3px;
+    background:var(--hole);
+    border:1px solid rgba(238,241,231,0.06);
+    cursor:pointer;
+    transition:background .1s, transform .1s, box-shadow .1s;
+  }
+  .hole:hover, .hole.lit{
+    background:var(--hole-lit);
+    box-shadow:0 0 8px 1px rgba(226,165,98,0.7);
+    transform:scale(1.15);
+  }
+  .strip-block{display:grid; gap:4px; margin:3px 0;}
+  .strip-row{display:grid; gap:5px;}
+  .gap-row{height:20px; display:flex; align-items:center;}
+  .gap-row .gap-line{width:100%; border-top:1px dashed var(--line);}
+  .col-index{
+    font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--muted-dim);
+    display:grid; gap:5px; margin-top:2px;
+  }
+  .col-index span{text-align:center;}
+
+  .hero-caption{
+    margin-top:14px; font-family:'JetBrains Mono',monospace; font-size:12.5px;
+    color:var(--muted); min-height:18px;
+  }
+  .hero-caption strong{color:var(--copper-bright); font-weight:500;}
+
+  /* SECTION SHELL */
+  section{padding:96px 0;}
+  section:not(.hero) h2{
+    font-size:clamp(26px,3.4vw,36px); font-weight:600; letter-spacing:-0.01em;
+    max-width:640px;
+  }
+  .section-tag{
+    font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--copper-bright);
+    letter-spacing:0.1em; text-transform:uppercase; margin:0 0 12px;
+  }
+  .section-lede{
+    color:var(--muted); font-size:16px; line-height:1.65; max-width:600px; margin:16px 0 0;
+  }
+
+  /* ANATOMY */
+  .anatomy-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:1px; background:var(--line); margin-top:44px; border:1px solid var(--line); border-radius:12px; overflow:hidden;
+  }
+  .anatomy-card{background:var(--bg-alt); padding:26px 24px;}
+  .anatomy-card .part-mono{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted-dim); letter-spacing:0.08em;}
+  .anatomy-card h3{font-size:18px; margin:8px 0 10px; font-weight:600;}
+  .anatomy-card p{font-size:14.5px; line-height:1.6; color:var(--muted); margin:0;}
+
+  /* MISTAKES */
+  .mistake-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:18px; margin-top:44px;
+  }
+  .mistake-card{
+    border:1px solid var(--line); border-radius:12px; padding:22px 22px 24px;
+    background:var(--bg-alt);
+  }
+  .mistake-card .mk{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:30px; height:30px; border-radius:7px; background:rgba(217,79,66,0.14);
+    color:var(--rail-pos); font-family:'JetBrains Mono',monospace; font-weight:700; font-size:14px;
+    margin-bottom:14px;
+  }
+  .mistake-card h3{font-size:16px; margin-bottom:8px; font-weight:600;}
+  .mistake-card p{font-size:14px; line-height:1.6; color:var(--muted); margin:0;}
+
+  /* CIRCUIT */
+  .circuit-layout{display:grid; grid-template-columns:1.1fr 1fr; gap:52px; margin-top:48px; align-items:start;}
+  @media (max-width:860px){.circuit-layout{grid-template-columns:1fr;}}
+  .mini-board{
+    border:1px solid var(--line); border-radius:12px; background:linear-gradient(180deg,var(--bg-alt),var(--bg-alt-2));
+    padding:22px; overflow-x:auto;
+  }
+  .mini-board-inner{min-width:420px;}
+  .legend{display:flex; flex-wrap:wrap; gap:14px; margin-top:16px; font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--muted);}
+  .legend span{display:inline-flex; align-items:center; gap:6px;}
+  .legend i{width:10px; height:10px; border-radius:3px; display:inline-block;}
+  .steps{list-style:none; margin:0; padding:0; counter-reset:step;}
+  .steps li{
+    counter-increment:step; position:relative; padding:0 0 26px 42px; font-size:15px; line-height:1.6; color:var(--silk);
+  }
+  .steps li:last-child{padding-bottom:0;}
+  .steps li::before{
+    content:counter(step);
+    position:absolute; left:0; top:0; width:26px; height:26px; border-radius:50%;
+    background:var(--bg-alt); border:1px solid var(--copper); color:var(--copper-bright);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700;
+  }
+  .steps li::after{
+    content:''; position:absolute; left:13px; top:26px; bottom:0; width:1px; background:var(--line);
+  }
+  .steps li:last-child::after{display:none;}
+  .steps b{color:var(--copper-bright); font-weight:600;}
+
+  /* RESISTOR CALCULATOR */
+  .calc-shell{
+    margin-top:48px; border:1px solid var(--line); border-radius:14px; background:var(--bg-alt);
+    padding:32px; display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center;
+  }
+  @media (max-width:760px){.calc-shell{grid-template-columns:1fr;}}
+  .band-controls{display:grid; gap:16px;}
+  .band-field label{
+    display:block; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted); margin-bottom:6px; letter-spacing:0.05em;
+  }
+  select{
+    width:100%; background:var(--bg); border:1px solid var(--line); color:var(--silk);
+    padding:10px 12px; border-radius:8px; font-family:'JetBrains Mono',monospace; font-size:13.5px;
+    appearance:none; cursor:pointer;
+  }
+  select:focus{border-color:var(--copper);}
+  .resistor-display{display:flex; flex-direction:column; align-items:center; gap:22px;}
+  .resistor-svg-wrap{width:100%; max-width:280px;}
+  .resistor-value{
+    font-family:'JetBrains Mono',monospace; font-size:26px; font-weight:700; color:var(--copper-bright);
+    text-align:center;
+  }
+  .resistor-tol{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--muted); text-align:center;}
+
+  /* CHEAT SHEET */
+  .cheat-card{
+    margin-top:44px; border:1px solid var(--line); border-radius:14px; background:var(--bg-alt);
+    padding:8px 0; 
+  }
+  .cheat-row{
+    display:grid; grid-template-columns:220px 1fr; gap:24px; padding:18px 30px; border-bottom:1px solid var(--line);
+  }
+  .cheat-row:last-child{border-bottom:none;}
+  @media (max-width:640px){.cheat-row{grid-template-columns:1fr; gap:6px;}}
+  .cheat-row .k{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--copper-bright);}
+  .cheat-row .v{font-size:14.5px; color:var(--muted); line-height:1.6;}
+
+  footer{
+    border-top:1px solid var(--line); padding:40px 0; margin-top:20px;
+  }
+  footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;}
+  footer p{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted-dim); margin:0;}
+
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none !important; scroll-behavior:auto !important;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <div class="nav-logo">BREADBOARD<span>://</span>REFERENCE</div>
+    <ul class="nav-links">
+      <li><a href="#anatomy">Anatomy</a></li>
+      <li><a href="#mistakes">Mistakes</a></li>
+      <li><a href="#circuit">Build One</a></li>
+      <li><a href="#codes">Resistor Codes</a></li>
+      <li><a href="#compare">Beyond Breadboards</a></li>
+      <li><a href="#cheatsheet">Cheat Sheet</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Self-study reference — no hardware required</p>
+    <h1>Every hole is<br>a promise.</h1>
+    <p class="hero-sub">A breadboard looks like a grid of identical holes. It isn't — underneath, strips of metal decide which holes are electrically the same point and which are strangers. This guide is that wiring, made visible.</p>
+
+    <div class="board-shell">
+      <div class="board-inner" id="heroBoard"></div>
+    </div>
+    <p class="hero-caption" id="hoverCaption">Hover any hole below — everything that lights up shares one electrical node.</p>
+  </div>
+</section>
+
+<section id="anatomy">
+  <div class="wrap">
+    <p class="section-tag">01 — Layout</p>
+    <h2>Four parts, one grid</h2>
+    <p class="section-lede">Every full-size breadboard is built from the same four structures. Learn these once and every board you'll ever touch reads the same way.</p>
+    <div class="anatomy-grid">
+      <div class="anatomy-card">
+        <p class="part-mono">POWER RAILS</p>
+        <h3>The red and blue lines</h3>
+        <p>Two strips run along the top and bottom, each split into a + row and a − row. Every hole along a rail is connected — but the + and − rows are never connected to each other.</p>
+      </div>
+      <div class="anatomy-card">
+        <p class="part-mono">TERMINAL STRIPS</p>
+        <h3>The main working field</h3>
+        <p>Each column of five holes (A–E or F–J) is one node. Plug two legs into the same column and they're joined; plug them into different columns and they're not.</p>
+      </div>
+      <div class="anatomy-card">
+        <p class="part-mono">CENTER GAP</p>
+        <h3>The dividing trench</h3>
+        <p>The channel down the middle physically and electrically separates the top half (F–J) from the bottom half (A–E). It exists so DIP chips can straddle it without shorting their own pins.</p>
+      </div>
+      <div class="anatomy-card">
+        <p class="part-mono">RAIL BREAKS</p>
+        <h3>Not always one long wire</h3>
+        <p>On larger boards the power rails are often split at the midpoint, sometimes with a visible break in the printed line. Check continuity — don't assume the whole rail is one node.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="mistakes">
+  <div class="wrap">
+    <p class="section-tag">02 — Failure Modes</p>
+    <h2>Where the smoke gets out</h2>
+    <p class="section-lede">Almost every "my circuit doesn't work" is one of these four, in order of how often they actually happen.</p>
+    <div class="mistake-grid">
+      <div class="mistake-card">
+        <div class="mk">!</div>
+        <h3>Straddling the gap by accident</h3>
+        <p>A resistor placed across the center channel connects two unrelated halves of the board. Sometimes that's intentional — usually it's a short you didn't mean to build.</p>
+      </div>
+      <div class="mistake-card">
+        <div class="mk">!</div>
+        <h3>Assuming the rails are joined</h3>
+        <p>The + and − rails sit right next to each other but carry no connection between them. Power still needs a component — a resistor, an LED, anything — to bridge them.</p>
+      </div>
+      <div class="mistake-card">
+        <div class="mk">!</div>
+        <h3>A half-seated wire</h3>
+        <p>A jumper that looks plugged in but isn't fully seated makes an intermittent connection — the classic "it worked when I touched it" bug.</p>
+      </div>
+      <div class="mistake-card">
+        <div class="mk">!</div>
+        <h3>Miscounting the column</h3>
+        <p>Rows A–E in a column are one node, F–J in that same column are a separate one. Reading straight across the gap as "still connected" is the single most common wiring error.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="circuit">
+  <div class="wrap">
+    <p class="section-tag">03 — Worked Example</p>
+    <h2>Build one: an LED test circuit</h2>
+    <p class="section-lede">The smallest circuit that proves a board is wired correctly. Five components, one loop, nothing that can't be undone in ten seconds.</p>
+
+    <div class="circuit-layout">
+      <div>
+        <div class="mini-board">
+          <div class="mini-board-inner" id="circuitBoard"></div>
+        </div>
+        <div class="legend">
+          <span><i style="background:var(--rail-pos)"></i> + rail</span>
+          <span><i style="background:var(--rail-neg)"></i> − rail</span>
+          <span><i style="background:var(--copper-bright)"></i> resistor</span>
+          <span><i style="background:#e6e6e6"></i> LED + jumper</span>
+        </div>
+      </div>
+      <ol class="steps">
+        <li>Run a jumper from the board's <b>+ rail</b> to any row on the terminal strip, say column 12.</li>
+        <li>Place a <b>220Ω resistor</b> from that same column 12 into a fresh column, 14.</li>
+        <li>Seat the LED's <b>long leg (anode)</b> into column 14 — same node as the resistor's other end.</li>
+        <li>Seat the LED's <b>short leg (cathode)</b> into a new column, 16.</li>
+        <li>Jumper column 16 back to the <b>− rail</b> to close the loop.</li>
+        <li>Connect the rails to a 5V source. The resistor limits current so the LED lights instead of burning out.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section id="codes">
+  <div class="wrap">
+    <p class="section-tag">04 — Component Reference</p>
+    <h2>Resistor color code</h2>
+    <p class="section-lede">Set the four bands to match a resistor in your kit and read its value instantly.</p>
+
+    <div class="calc-shell">
+      <div class="band-controls">
+        <div class="band-field">
+          <label for="band1">Band 1 — first digit</label>
+          <select id="band1"></select>
+        </div>
+        <div class="band-field">
+          <label for="band2">Band 2 — second digit</label>
+          <select id="band2"></select>
+        </div>
+        <div class="band-field">
+          <label for="band3">Band 3 — multiplier</label>
+          <select id="band3"></select>
+        </div>
+        <div class="band-field">
+          <label for="band4">Band 4 — tolerance</label>
+          <select id="band4"></select>
+        </div>
+      </div>
+      <div class="resistor-display">
+        <div class="resistor-svg-wrap">
+          <svg viewBox="0 0 280 90" width="100%" id="resistorSvg">
+            <line x1="0" y1="45" x2="55" y2="45" stroke="#8fa69b" stroke-width="3"/>
+            <line x1="225" y1="45" x2="280" y2="45" stroke="#8fa69b" stroke-width="3"/>
+            <rect x="55" y="18" width="170" height="54" rx="10" fill="#e7d9b8"/>
+            <rect id="b1" x="80" y="18" width="14" height="54" fill="#000"/>
+            <rect id="b2" x="108" y="18" width="14" height="54" fill="#000"/>
+            <rect id="b3" x="136" y="18" width="14" height="54" fill="#000"/>
+            <rect id="b4" x="192" y="18" width="14" height="54" fill="#000"/>
+          </svg>
+        </div>
+        <div>
+          <div class="resistor-value" id="resistorValue">22 Ω</div>
+          <div class="resistor-tol" id="resistorTol">± 5% tolerance</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="wrap">
+    <p class="section-tag">05 — Next Step</p>
+    <h2>When to graduate off the breadboard</h2>
+    <p class="section-lede">A breadboard is for proving an idea works. It's not the last stop — here's what changes as a circuit gets more permanent.</p>
+    <div class="anatomy-grid">
+      <div class="anatomy-card">
+        <p class="part-mono">BREADBOARD</p>
+        <h3>Prove it works</h3>
+        <p>No soldering, fully reusable, connections can loosen over time. Best for prototyping and testing — not for anything that needs to survive being carried around.</p>
+      </div>
+      <div class="anatomy-card">
+        <p class="part-mono">PERFBOARD</p>
+        <h3>Make it permanent</h3>
+        <p>Same hole-grid layout, but you solder each connection by hand with wire underneath. Cheap and durable, though rewiring means desoldering.</p>
+      </div>
+      <div class="anatomy-card">
+        <p class="part-mono">PCB</p>
+        <h3>Make it repeatable</h3>
+        <p>Copper traces are etched into the board itself, so every connection is fixed at design time. The standard for a finished project or anything built more than once.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cheatsheet">
+  <div class="wrap">
+    <p class="section-tag">06 — Quick Reference</p>
+    <h2>The cheat sheet</h2>
+    <div class="cheat-card">
+      <div class="cheat-row"><div class="k">SAME COLUMN</div><div class="v">Rows A–E in one column are one electrical node. Same for F–J in one column.</div></div>
+      <div class="cheat-row"><div class="k">ACROSS THE GAP</div><div class="v">The center channel breaks the connection — a column's top half and bottom half are separate nodes.</div></div>
+      <div class="cheat-row"><div class="k">POWER RAILS</div><div class="v">Each rail row is one long node end-to-end (or in two halves on larger boards) — but + and − never touch.</div></div>
+      <div class="cheat-row"><div class="k">DIP CHIPS</div><div class="v">Straddle the center gap so each row of pins lands in its own half, keeping every pin on a separate node.</div></div>
+      <div class="cheat-row"><div class="k">CURRENT-LIMITING</div><div class="v">Never wire an LED straight across a rail — pair it with a resistor (220Ω–330Ω is a safe default at 5V) every time.</div></div>
+      <div class="cheat-row"><div class="k">BEFORE POWERING ON</div><div class="v">Trace the loop with your finger: source → component → component → back to source. If it doesn't close, it won't work.</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Breadboard Reference Guide — built for coursework, free to fork.</p>
+    <p>No hardware required.</p>
+  </div>
+</footer>
+
+<script>
+// ---------- Breadboard grid generator ----------
+function buildBoard(container, cols, opts){
+  opts = opts || {};
+  container.innerHTML = '';
+  container.style.display = 'grid';
+  container.style.gridTemplateColumns = `repeat(${cols}, 14px)`;
+  container.style.justifyContent = 'start';
+
+  function makeRow(rowLabel, groupPrefix, groupSuffix){
+    const row = document.createElement('div');
+    row.style.display = 'contents';
+    for(let c=1;c<=cols;c++){
+      const hole = document.createElement('div');
+      hole.className = 'hole';
+      const group = groupSuffix ? `${groupPrefix}${c}-${groupSuffix}` : `${groupPrefix}${c}`;
+      hole.dataset.group = group;
+      hole.dataset.desc = opts.describe ? opts.describe(rowLabel, c, group) : group;
+      container.appendChild(hole);
+    }
+  }
+
+  // top + rail
+  makeRow('+top','rail-top-pos');
+  makeRow('-top','rail-top-neg');
+  // spacer
+  for(let c=1;c<=cols;c++){ const s=document.createElement('div'); s.style.height='10px'; container.appendChild(s); }
+
+  ['J','I','H','G','F'].forEach(r=> makeRow(r,'col','upper'));
+  for(let c=1;c<=cols;c++){ const s=document.createElement('div'); s.style.height='16px'; s.style.borderTop='1px dashed var(--line)'; s.style.marginTop='6px'; container.appendChild(s); }
+  ['E','D','C','B','A'].forEach(r=> makeRow(r,'col','lower'));
+
+  for(let c=1;c<=cols;c++){ const s=document.createElement('div'); s.style.height='10px'; container.appendChild(s); }
+  makeRow('+bot','rail-bot-pos');
+  makeRow('-bot','rail-bot-neg');
+}
+
+function attachHover(container, caption){
+  container.addEventListener('mouseover', (e)=>{
+    const t = e.target.closest('.hole');
+    if(!t) return;
+    const group = t.dataset.group;
+    container.querySelectorAll(`.hole[data-group="${CSS.escape(group)}"]`).forEach(h=>h.classList.add('lit'));
+    if(caption) caption.innerHTML = `<strong>${t.dataset.desc}</strong> — every lit hole shares this node.`;
+  });
+  container.addEventListener('mouseout', (e)=>{
+    const t = e.target.closest('.hole');
+    if(!t) return;
+    const group = t.dataset.group;
+    container.querySelectorAll(`.hole[data-group="${CSS.escape(group)}"]`).forEach(h=>h.classList.remove('lit'));
+  });
+}
+
+function describeGroup(rowLabel, c, group){
+  if(group.startsWith('rail-top-pos')) return `Top + rail, hole ${c}`;
+  if(group.startsWith('rail-top-neg')) return `Top − rail, hole ${c}`;
+  if(group.startsWith('rail-bot-pos')) return `Bottom + rail, hole ${c}`;
+  if(group.startsWith('rail-bot-neg')) return `Bottom − rail, hole ${c}`;
+  if(group.endsWith('upper')) return `Column ${c}, rows F–J`;
+  return `Column ${c}, rows A–E`;
+}
+
+const heroBoard = document.getElementById('heroBoard');
+buildBoard(heroBoard, 40, {describe: describeGroup});
+attachHover(heroBoard, document.getElementById('hoverCaption'));
+
+// ---------- Mini annotated circuit board ----------
+const circuitBoard = document.getElementById('circuitBoard');
+buildBoard(circuitBoard, 20, {describe: describeGroup});
+// Highlight the demo circuit path permanently: rail(+) -> col12 -> resistor -> col14 -> LED -> col16 -> rail(-)
+function tagCircuitDemo(){
+  const map = [
+    {group:'rail-top-pos12', color:'var(--rail-pos)'},
+    {group:'col12-lower', color:'var(--copper-bright)'},
+    {group:'col14-lower', color:'var(--copper-bright)'},
+    {group:'col16-lower', color:'#e6e6e6'},
+    {group:'rail-top-neg16', color:'var(--rail-neg)'}
+  ];
+  map.forEach(m=>{
+    circuitBoard.querySelectorAll(`.hole[data-group="${m.group}"]`).forEach(h=>{
+      h.style.background = m.color;
+      h.style.boxShadow = `0 0 6px 0 ${m.color}`;
+    });
+  });
+}
+tagCircuitDemo();
+
+// ---------- Resistor color code calculator ----------
+const digitColors = [
+  {name:'Black', hex:'#111111', value:0},
+  {name:'Brown', hex:'#7a4a2b', value:1},
+  {name:'Red', hex:'#d94f42', value:2},
+  {name:'Orange', hex:'#e08a3c', value:3},
+  {name:'Yellow', hex:'#e8c840', value:4},
+  {name:'Green', hex:'#4c9a5c', value:5},
+  {name:'Blue', hex:'#3f7fc4', value:6},
+  {name:'Violet', hex:'#8a5fc4', value:7},
+  {name:'Grey', hex:'#9a9a9a', value:8},
+  {name:'White', hex:'#eeeeee', value:9},
+];
+const multiplierColors = [
+  {name:'Black ×1', hex:'#111111', mult:1},
+  {name:'Brown ×10', hex:'#7a4a2b', mult:10},
+  {name:'Red ×100', hex:'#d94f42', mult:100},
+  {name:'Orange ×1k', hex:'#e08a3c', mult:1000},
+  {name:'Yellow ×10k', hex:'#e8c840', mult:10000},
+  {name:'Green ×100k', hex:'#4c9a5c', mult:100000},
+  {name:'Blue ×1M', hex:'#3f7fc4', mult:1000000},
+  {name:'Gold ×0.1', hex:'#c9a24b', mult:0.1},
+  {name:'Silver ×0.01', hex:'#bfbfbf', mult:0.01},
+];
+const toleranceColors = [
+  {name:'Brown ±1%', hex:'#7a4a2b', tol:'±1%'},
+  {name:'Red ±2%', hex:'#d94f42', tol:'±2%'},
+  {name:'Gold ±5%', hex:'#c9a24b', tol:'±5%'},
+  {name:'Silver ±10%', hex:'#bfbfbf', tol:'±10%'},
+];
+
+function fillSelect(select, arr, defaultIndex){
+  select.innerHTML = arr.map((c,i)=>`<option value="${i}">${c.name}</option>`).join('');
+  select.selectedIndex = defaultIndex;
+}
+const band1 = document.getElementById('band1');
+const band2 = document.getElementById('band2');
+const band3 = document.getElementById('band3');
+const band4 = document.getElementById('band4');
+fillSelect(band1, digitColors, 2); // red
+fillSelect(band2, digitColors, 2); // red
+fillSelect(band3, multiplierColors, 1); // x10
+fillSelect(band4, toleranceColors, 2); // gold
+
+function formatOhms(v){
+  if(v >= 1000000) return (v/1000000).toString().replace(/\.0$/,'') + ' MΩ';
+  if(v >= 1000) return (v/1000).toString().replace(/\.0$/,'') + ' kΩ';
+  return v + ' Ω';
+}
+
+function updateResistor(){
+  const d1 = digitColors[band1.value];
+  const d2 = digitColors[band2.value];
+  const m = multiplierColors[band3.value];
+  const t = toleranceColors[band4.value];
+  const value = (d1.value*10 + d2.value) * m.mult;
+  document.getElementById('b1').setAttribute('fill', d1.hex);
+  document.getElementById('b2').setAttribute('fill', d2.hex);
+  document.getElementById('b3').setAttribute('fill', m.hex);
+  document.getElementById('b4').setAttribute('fill', t.hex);
+  document.getElementById('resistorValue').textContent = formatOhms(value);
+  document.getElementById('resistorTol').textContent = t.tol + ' tolerance';
+}
+[band1,band2,band3,band4].forEach(s=> s.addEventListener('change', updateResistor));
+updateResistor();
+</script>
+</body>
+</html>
