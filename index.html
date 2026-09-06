@@ -247,7 +247,7 @@
     color:var(--muted); font-size:16.5px; line-height:1.65; max-width:640px; margin:14px 0 0;
   }
 
-  /* ------------------- 3D SIMULATOR LAB SECTION ------------------- */
+  /* ------------------- 3D SIMULATOR LAB & TINKERCAD PALETTE ------------------- */
   .sim-container{
     margin-top:38px;
     background:linear-gradient(180deg, #09241b 0%, #05160e 100%);
@@ -281,7 +281,7 @@
   }
 
   /* 3D Presets bar */
-  .sim-presets{display:flex; gap:8px; flex-wrap:wrap;}
+  .sim-presets{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
   .preset-btn{
     font-family:'JetBrains Mono',monospace; font-size:11.5px;
     background:rgba(13,44,34,0.8); border:1px solid var(--line);
@@ -297,6 +297,59 @@
     border-color:var(--neon-green); box-shadow:0 0 10px var(--neon-glow);
   }
 
+  /* Tinkercad-Style Component Palette Bar */
+  .tinker-palette-bar{
+    background:rgba(8, 30, 23, 0.95);
+    border-bottom:1px solid rgba(0,255,136,0.15);
+    padding:12px 20px;
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:12px;
+  }
+  .palette-scroll-wrap{
+    display:flex; gap:10px; overflow-x:auto; padding-bottom:4px; align-items:center;
+  }
+  .palette-card{
+    background:rgba(13,44,34,0.85); border:1.5px solid var(--line);
+    border-radius:10px; padding:7px 12px; min-width:82px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:4px; cursor:grab; transition:all .18s ease; user-select:none;
+    touch-action:none;
+  }
+  .palette-card:hover{
+    border-color:var(--neon-green); background:rgba(0,255,136,0.1);
+    transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,255,136,0.15);
+  }
+  .palette-card.active-selected{
+    border-color:var(--neon-green); background:var(--neon-green);
+    color:#05140e !important; box-shadow:0 0 14px var(--neon-glow);
+    font-weight:700;
+  }
+  .palette-card.active-selected .palette-name{color:#05140e !important;}
+  .palette-icon{font-size:20px; line-height:1;}
+  .palette-name{
+    font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700;
+    color:var(--silk); text-align:center; white-space:nowrap;
+  }
+
+  .palette-action-tools{
+    display:flex; gap:8px; align-items:center; flex-wrap:wrap;
+  }
+  .sim-action-btn{
+    display:inline-flex; align-items:center; gap:6px;
+    background:rgba(19,60,46,0.85); border:1px solid var(--line);
+    color:var(--silk); font-family:'JetBrains Mono',monospace; font-size:11.5px;
+    padding:8px 12px; border-radius:8px; cursor:pointer;
+    transition:all .2s;
+  }
+  .sim-action-btn:hover{
+    border-color:var(--neon-green); color:var(--neon-green);
+    background:rgba(0,255,136,0.15);
+  }
+  .sim-action-btn.hint-btn{
+    border-color:#ffcc00; color:#ffcc00; background:rgba(255,204,0,0.12);
+  }
+  .sim-action-btn.hint-btn:hover{background:rgba(255,204,0,0.25);}
+
   /* 3D Canvas wrapper */
   .sim-canvas-wrapper{
     position:relative; width:100%; height:520px; background:#04100b;
@@ -306,47 +359,14 @@
   }
   #sim-three-canvas:active{cursor:grabbing;}
 
-  /* Floating 3D Overlays */
-  .sim-overlay-controls{
-    position:absolute; bottom:18px; left:20px; right:20px;
-    display:flex; justify-content:space-between; align-items:center;
-    pointer-events:none; flex-wrap:wrap; gap:12px;
-  }
-  .sim-tools{
-    display:flex; gap:8px; pointer-events:auto; background:rgba(7,28,21,0.85);
-    backdrop-filter:blur(8px); padding:8px 12px; border-radius:12px;
-    border:1px solid rgba(0,255,136,0.2);
-  }
-  .tool-btn{
-    display:inline-flex; align-items:center; gap:6px;
-    background:rgba(19,60,46,0.8); border:1px solid var(--line);
-    color:var(--silk); font-family:'JetBrains Mono',monospace; font-size:11.5px;
-    padding:8px 12px; border-radius:8px; cursor:pointer;
-    transition:all .2s;
-  }
-  .tool-btn:hover{
-    border-color:var(--neon-green); color:var(--neon-green);
-    background:rgba(0,255,136,0.15);
-  }
-  .tool-btn.active{
-    background:var(--neon-green); color:#05140e; font-weight:700;
-    box-shadow:0 0 12px var(--neon-glow);
-  }
-
-  .sim-power-box{
-    pointer-events:auto; display:flex; align-items:center; gap:10px;
-    background:rgba(7,28,21,0.85); backdrop-filter:blur(8px);
-    padding:8px 16px; border-radius:12px; border:1px solid rgba(0,255,136,0.2);
-  }
-  .power-toggle-btn{
-    display:inline-flex; align-items:center; gap:8px;
-    background:#222; color:#888; border:2px solid #444;
-    padding:8px 18px; border-radius:8px; font-family:'Space Grotesk',sans-serif;
-    font-weight:700; font-size:13px; cursor:pointer; transition:all .2s;
-  }
-  .power-toggle-btn.on{
-    background:var(--neon-green); color:#05140e; border-color:var(--neon-green);
-    box-shadow:0 0 16px var(--neon-glow);
+  /* Floating Instruction Toast in 3D Canvas */
+  .sim-drag-banner{
+    position:absolute; top:14px; left:50%; transform:translateX(-50%);
+    background:rgba(7,28,21,0.9); backdrop-filter:blur(10px);
+    border:1px solid var(--neon-green); padding:8px 20px; border-radius:30px;
+    font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--neon-green);
+    box-shadow:0 0 16px var(--neon-glow); pointer-events:none; z-index:10;
+    display:none; align-items:center; gap:8px;
   }
 
   .sim-hint{
@@ -357,6 +377,30 @@
     pointer-events:none;
   }
 
+  /* 3D Overlay Controls */
+  .sim-overlay-controls{
+    position:absolute; bottom:18px; left:20px; right:20px;
+    display:flex; justify-content:space-between; align-items:center;
+    pointer-events:none; flex-wrap:wrap; gap:12px;
+  }
+
+  .sim-power-box{
+    pointer-events:auto; display:flex; align-items:center; gap:10px;
+    background:rgba(7,28,21,0.9); backdrop-filter:blur(10px);
+    padding:8px 16px; border-radius:12px; border:1px solid rgba(0,255,136,0.25);
+    box-shadow:0 10px 25px rgba(0,0,0,0.6);
+  }
+  .power-toggle-btn{
+    display:inline-flex; align-items:center; gap:8px;
+    background:#222; color:#888; border:2px solid #444;
+    padding:8px 18px; border-radius:8px; font-family:'Space Grotesk',sans-serif;
+    font-weight:700; font-size:13px; cursor:pointer; transition:all .2s;
+  }
+  .power-toggle-btn.on{
+    background:var(--neon-green); color:#05140e; border-color:var(--neon-green);
+    box-shadow:0 0 18px var(--neon-glow);
+  }
+
   /* Duolingo Style Interactive Simulation Fault Modal */
   .sim-modal-backdrop{
     position:fixed; top:0; left:0; width:100%; height:100%;
@@ -365,7 +409,7 @@
     padding:20px; animation:fadeIn .25s ease-out;
   }
   .sim-modal{
-    width:100%; max-width:540px; background:linear-gradient(180deg, #0f3427, #081d16);
+    width:100%; max-width:560px; background:linear-gradient(180deg, #0f3427, #081d16);
     border:2px solid var(--neon-green); border-radius:20px;
     padding:32px; box-shadow:0 25px 60px rgba(0,0,0,0.8), 0 0 35px var(--neon-glow);
     position:relative; animation:slideUp .3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -374,19 +418,27 @@
     border-color:var(--rail-pos);
     box-shadow:0 25px 60px rgba(0,0,0,0.8), 0 0 35px rgba(255,77,77,0.35);
   }
+  .sim-modal.warning{
+    border-color:#ffaa00;
+    box-shadow:0 25px 60px rgba(0,0,0,0.8), 0 0 35px rgba(255,170,0,0.35);
+  }
   @keyframes slideUp{from{transform:translateY(30px); opacity:0;} to{transform:translateY(0); opacity:1;}}
   @keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
 
   .modal-icon-badge{
     width:56px; height:56px; border-radius:14px;
     display:flex; align-items:center; justify-content:center;
-    font-size:26px; margin-bottom:18px;
+    font-size:28px; margin-bottom:18px;
     background:rgba(0,255,136,0.15); border:1px solid var(--neon-green);
     color:var(--neon-green);
   }
   .sim-modal.error .modal-icon-badge{
     background:rgba(255,77,77,0.15); border-color:var(--rail-pos);
     color:var(--rail-pos);
+  }
+  .sim-modal.warning .modal-icon-badge{
+    background:rgba(255,170,0,0.15); border-color:#ffaa00;
+    color:#ffaa00;
   }
   .modal-title{font-size:22px; font-weight:700; margin-bottom:12px; color:var(--silk);}
   .modal-desc{font-size:15px; line-height:1.65; color:var(--muted); margin-bottom:20px;}
@@ -396,8 +448,9 @@
     font-size:13.5px; line-height:1.6; color:#d2eee1;
   }
   .sim-modal.error .modal-tip-box{border-left-color:var(--rail-pos);}
+  .sim-modal.warning .modal-tip-box{border-left-color:#ffaa00;}
   .modal-tip-box strong{color:var(--silk); display:block; margin-bottom:4px; font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em;}
-  .modal-actions{display:flex; gap:12px; justify-content:flex-end;}
+  .modal-actions{display:flex; gap:12px; justify-content:flex-end; flex-wrap:wrap;}
 
   /* ------------------- QUIZ SECTION (DUOLINGO STYLE) ------------------- */
   .quiz-card{
@@ -442,11 +495,6 @@
     margin-bottom:8px; font-weight:700;
   }
   .question-text{font-size:22px; font-weight:600; line-height:1.4; color:var(--silk);}
-  .question-diagram{
-    margin:18px 0; padding:18px; background:rgba(0,0,0,0.3);
-    border-radius:12px; border:1px solid var(--line);
-    display:flex; justify-content:center; align-items:center;
-  }
 
   .quiz-options-grid{
     display:grid; grid-template-columns:1fr; gap:12px;
@@ -766,7 +814,7 @@
       <div>
         <p class="eyebrow">Interactive ECE Platform — No Hardware Required</p>
         <h1>Master the breadboard.<br>Wire in 3D. Level up.</h1>
-        <p class="hero-sub">A breadboard looks like a uniform grid of identical holes. Underneath, spring-clip metal strips dictate which pins share a voltage node. Experience real circuit physics in our 3D simulator, conquer the 10-level challenge quiz, and rise on the ECE leaderboard.</p>
+        <p class="hero-sub">A breadboard looks like a uniform grid of identical holes. Underneath, spring-clip metal strips dictate which pins share a voltage node. Experience real circuit physics in our Tinkercad-style 3D simulator, conquer the 10-level challenge quiz, and rise on the ECE leaderboard.</p>
 
         <div class="hero-actions">
           <a href="#simulator-3d" class="btn-primary">⚡ Open 3D Simulator</a>
@@ -784,15 +832,16 @@
 </section>
 
 <!-- ------------------------------------------------------------- -->
-<!-- 1. 3D INTERACTIVE BREADBOARD SIMULATOR (THREE.JS)             -->
+<!-- 1. 3D INTERACTIVE BREADBOARD SIMULATOR (THREE.JS + TINKERCAD) -->
 <!-- ------------------------------------------------------------- -->
 <section id="simulator-3d">
   <div class="wrap">
     <p class="section-tag">00 — Interactive 3D Lab</p>
     <h2>Interactive 3D Breadboard Simulator</h2>
-    <p class="section-lede">Drag, place, and test real circuit components in full 3D. Power up the 5V supply to visualize current flow. If a short circuit or burnout occurs, our diagnostic engine explains exactly why.</p>
+    <p class="section-lede">Drag and drop resistors, LEDs, and wires onto breadboard pinholes like Tinkercad! Toggle power on to test your circuit. If a mistake occurs, our diagnostic engine highlights the fault and explains the physics.</p>
 
     <div class="sim-container">
+      <!-- Top Status & Presets Bar -->
       <div class="sim-header">
         <div class="sim-title-group">
           <span class="mono" style="font-weight:700; color:var(--silk); font-size:14px;">LAB BENCH // 5V DC</span>
@@ -812,23 +861,68 @@
         </div>
       </div>
 
+      <!-- Tinkercad-Style Component Palette -->
+      <div class="tinker-palette-bar">
+        <div class="palette-scroll-wrap" id="paletteCardsContainer">
+          <div class="palette-card" data-comp="resistor_220" title="Click or Drag onto Breadboard" onclick="selectPaletteComponent('resistor_220')">
+            <span class="palette-icon">⚡</span>
+            <span class="palette-name">220Ω Resistor</span>
+          </div>
+          <div class="palette-card" data-comp="resistor_1k" title="Click or Drag onto Breadboard" onclick="selectPaletteComponent('resistor_1k')">
+            <span class="palette-icon">⚡</span>
+            <span class="palette-name">1kΩ Resistor</span>
+          </div>
+          <div class="palette-card" data-comp="led_red" title="Click or Drag onto Breadboard" onclick="selectPaletteComponent('led_red')">
+            <span class="palette-icon">🔴</span>
+            <span class="palette-name">Red LED</span>
+          </div>
+          <div class="palette-card" data-comp="led_green" title="Click or Drag onto Breadboard" onclick="selectPaletteComponent('led_green')">
+            <span class="palette-icon">🟢</span>
+            <span class="palette-name">Green LED</span>
+          </div>
+          <div class="palette-card" data-comp="led_blue" title="Click or Drag onto Breadboard" onclick="selectPaletteComponent('led_blue')">
+            <span class="palette-icon">🔵</span>
+            <span class="palette-name">Blue LED</span>
+          </div>
+          <div class="palette-card" data-comp="jumper_wire" title="Click first hole, then second hole" onclick="selectPaletteComponent('jumper_wire')">
+            <span class="palette-icon">〰️</span>
+            <span class="palette-name">Jumper Wire</span>
+          </div>
+          <div class="palette-card" data-comp="switch" title="SPST Toggle Switch" onclick="selectPaletteComponent('switch')">
+            <span class="palette-icon">🔘</span>
+            <span class="palette-name">Switch</span>
+          </div>
+          <div class="palette-card" data-comp="battery_9v" title="9V Battery Rails Clip" onclick="selectPaletteComponent('battery_9v')">
+            <span class="palette-icon">🔋</span>
+            <span class="palette-name">9V Battery</span>
+          </div>
+        </div>
+
+        <div class="palette-action-tools">
+          <button class="sim-action-btn" onclick="undoLastComponent()" title="Remove last placed component">↩️ Undo</button>
+          <button class="sim-action-btn" onclick="clearManualBoard()" title="Clear manual components">🗑️ Clear</button>
+          <button class="sim-action-btn hint-btn" onclick="showCircuitHint()" title="Highlight next valid holes">💡 Hint</button>
+          <button class="sim-action-btn" onclick="resetSimCamera()" title="Reset 3D camera angle">🔄 Reset View</button>
+        </div>
+      </div>
+
       <!-- 3D Canvas -->
-      <div class="sim-canvas-wrapper">
+      <div class="sim-canvas-wrapper" id="simCanvasWrapper">
         <canvas id="sim-three-canvas"></canvas>
 
+        <!-- Floating Placement Banner -->
+        <div class="sim-drag-banner" id="simPlacementBanner">
+          <span id="bannerIcon">⚡</span>
+          <span id="bannerText">Click 1st hole to start placing...</span>
+        </div>
+
         <div class="sim-hint">
-          <span>🖱️ Left-Click + Drag to Orbit • Scroll to Zoom • Right-Click to Pan</span>
+          <span>🖱️ Click component to place • Left-Click + Drag to Orbit • Scroll to Zoom</span>
         </div>
 
         <!-- 3D Overlay Controls -->
         <div class="sim-overlay-controls">
-          <div class="sim-tools">
-            <button class="tool-btn" onclick="addComponentToBoard('resistor_220')">➕ 220Ω Resistor</button>
-            <button class="tool-btn" onclick="addComponentToBoard('led_red')">➕ Red LED</button>
-            <button class="tool-btn" onclick="addComponentToBoard('jumper_wire')">➕ Jumper Wire</button>
-            <button class="tool-btn" onclick="resetSimCamera()">🔄 Reset View</button>
-          </div>
-
+          <div></div>
           <div class="sim-power-box">
             <span class="mono" style="font-size:12px; color:var(--muted); font-weight:600;">SUPPLY:</span>
             <button class="power-toggle-btn" id="powerToggleBtn" onclick="toggleSimPower()">
@@ -852,7 +946,8 @@
       <span id="modalTipText">How to fix this issue in real hardware.</span>
     </div>
     <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeSimModal()">Dismiss</button>
+      <a href="#mistakes" class="btn-secondary" id="modalLearnMoreBtn" onclick="closeSimModal()">📖 Learn More</a>
+      <button class="btn-secondary" onclick="closeSimModal()">Dismiss & Try Again</button>
       <button class="btn-primary" id="modalActionBtn" onclick="autoFixCircuit()">⚡ Auto-Fix Circuit</button>
     </div>
   </div>
@@ -889,7 +984,6 @@
         <div class="quiz-question-box">
           <div class="question-tag" id="questionCategory">RESISTOR COLOR CODES</div>
           <div class="question-text" id="questionTitle">What is the nominal resistance of a 4-band resistor with colors: Red — Red — Brown — Gold?</div>
-          <div id="questionMediaSlot"></div>
         </div>
 
         <div class="quiz-options-grid" id="quizOptionsGrid">
@@ -1221,6 +1315,9 @@ function playSound(type) {
   } else if (type === 'wrong') {
     playTone(280, 'sawtooth', 0.18, 0.15);
     setTimeout(() => playTone(190, 'sawtooth', 0.25, 0.15), 120);
+  } else if (type === 'snap') {
+    playTone(800, 'sine', 0.05, 0.1);
+    setTimeout(() => playTone(1200, 'triangle', 0.08, 0.12), 40);
   } else if (type === 'power_on') {
     playTone(440, 'sine', 0.1, 0.1);
     setTimeout(() => playTone(880, 'sine', 0.2, 0.15), 90);
@@ -1312,7 +1409,6 @@ function addXP(amount, reason) {
   saveUserState();
 
   if (newLvl.name !== oldLvl.name) {
-    // Level Up Celebration!
     playSound('level_up');
     if (window.confetti) {
       confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
@@ -1343,22 +1439,31 @@ function saveUserName() {
 }
 
 /* ==========================================================================
-   3. 3D INTERACTIVE BREADBOARD SIMULATOR (THREE.JS)
+   3. 3D INTERACTIVE BREADBOARD SIMULATOR & TINKERCAD PLACEMENT ENGINE
    ========================================================================== */
 let simScene, simCamera, simRenderer, simControls;
 let simPowerOn = false;
-let simComponents = [];
-let currentCircuitState = 'working_led'; // working_led, short_circuit, no_resistor, reverse_led, clear_board
+let simComponents = []; // Array of placed 3D objects & logical components
+let currentCircuitState = 'working_led'; // 'working_led', 'short_circuit', 'no_resistor', 'reverse_led', 'clear_board', 'custom'
 let currentParticles = [];
 let ledPointLight = null;
-let ledMeshRef = null;
+let activeLEDMaterials = [];
 
-// Standard Breadboard Grid Specs for 3D coordinates
-// 30 columns, Pitch = 0.5 units
+// Breadboard Grid Specs
 const COLS = 30;
 const PITCH = 0.55;
 const BOARD_WIDTH = COLS * PITCH + 2.0;
 const BOARD_DEPTH = 6.8;
+
+// All hole metadata and interactive 3D meshes for raycasting
+let holeMeshes = [];
+let holeLookup = {}; // key: "col_row" -> { pos, mesh, nodeId }
+
+// Interactive Placement State
+let activePlacementType = null; // 'resistor_220', 'resistor_1k', 'led_red', 'led_green', 'led_blue', 'jumper_wire', 'switch', 'battery_9v'
+let placementFirstHole = null;
+let hoverSnapMesh = null;
+let activeHighlightRings = [];
 
 function init3DSimulator() {
   const canvas = document.getElementById('sim-three-canvas');
@@ -1379,13 +1484,13 @@ function init3DSimulator() {
   simControls = new THREE.OrbitControls(simCamera, simRenderer.domElement);
   simControls.enableDamping = true;
   simControls.dampingFactor = 0.08;
-  simControls.maxPolarAngle = Math.PI / 2 - 0.05; // don't go below board
+  simControls.maxPolarAngle = Math.PI / 2 - 0.05;
   simControls.minDistance = 4;
-  simControls.maxDistance = 22;
+  simControls.maxDistance = 24;
   simControls.target.set(0, 0, 0);
 
   // Lighting
-  const ambientLight = new THREE.AmbientLight(0xdcf5ea, 0.75);
+  const ambientLight = new THREE.AmbientLight(0xdcf5ea, 0.8);
   simScene.add(ambientLight);
 
   const dirLight = new THREE.DirectionalLight(0xffffff, 0.85);
@@ -1399,12 +1504,21 @@ function init3DSimulator() {
   labGlow.position.set(0, 5, 0);
   simScene.add(labGlow);
 
-  // LED Glow Light (Dynamic when power turns on)
+  // Dynamic LED Glow Light
   ledPointLight = new THREE.PointLight(0xff2222, 0, 8);
   ledPointLight.position.set(0, 1.2, 0);
   simScene.add(ledPointLight);
 
+  // Snap Hover Preview Ring
+  const snapRingGeo = new THREE.RingGeometry(0.08, 0.22, 16);
+  const snapRingMat = new THREE.MeshBasicMaterial({ color: 0x00ff88, side: THREE.DoubleSide, transparent: true, opacity: 0 });
+  hoverSnapMesh = new THREE.Mesh(snapRingGeo, snapRingMat);
+  hoverSnapMesh.rotation.x = -Math.PI / 2;
+  hoverSnapMesh.position.y = 0.38;
+  simScene.add(hoverSnapMesh);
+
   build3DBreadboardChassis();
+  setupRaycastInteraction(canvas);
   loadPresetCircuit('working_led');
 
   window.addEventListener('resize', onSimWindowResize);
@@ -1427,9 +1541,11 @@ function resetSimCamera() {
   playSound('click');
 }
 
-// Build Breadboard 3D Mesh
+// Build Breadboard 3D Mesh & Register All Holes
 function build3DBreadboardChassis() {
   const boardGroup = new THREE.Group();
+  holeMeshes = [];
+  holeLookup = {};
 
   // White plastic breadboard body
   const bodyGeo = new THREE.BoxGeometry(BOARD_WIDTH, 0.7, BOARD_DEPTH);
@@ -1454,7 +1570,6 @@ function build3DBreadboardChassis() {
   const railMatNeg = new THREE.MeshBasicMaterial({ color: 0x2277ff });
   const stripeGeo = new THREE.BoxGeometry(BOARD_WIDTH - 1.0, 0.02, 0.06);
 
-  // Top rails (+ and -)
   const topPosStripe = new THREE.Mesh(stripeGeo, railMatPos);
   topPosStripe.position.set(0, 0.36, -2.6);
   boardGroup.add(topPosStripe);
@@ -1463,7 +1578,6 @@ function build3DBreadboardChassis() {
   topNegStripe.position.set(0, 0.36, -2.0);
   boardGroup.add(topNegStripe);
 
-  // Bottom rails (+ and -)
   const botPosStripe = new THREE.Mesh(stripeGeo, railMatPos);
   botPosStripe.position.set(0, 0.36, 2.0);
   boardGroup.add(botPosStripe);
@@ -1472,50 +1586,46 @@ function build3DBreadboardChassis() {
   botNegStripe.position.set(0, 0.36, 2.6);
   boardGroup.add(botNegStripe);
 
-  // Hole Grid Contacts (Pinholes)
-  const holeGeo = new THREE.BoxGeometry(0.2, 0.05, 0.2);
+  // Pin Hole Geometry
+  const holeGeo = new THREE.BoxGeometry(0.22, 0.06, 0.22);
   const holeMat = new THREE.MeshStandardMaterial({ color: 0x111613, metalness: 0.7, roughness: 0.3 });
 
-  // Add pinholes along columns
-  for (let c = 0; c < COLS; c++) {
-    const x = (c - (COLS - 1) / 2) * PITCH;
-
-    // Top rails
-    const holeTopPos = new THREE.Mesh(holeGeo, holeMat);
-    holeTopPos.position.set(x, 0.36, -2.8);
-    boardGroup.add(holeTopPos);
-
-    const holeTopNeg = new THREE.Mesh(holeGeo, holeMat);
-    holeTopNeg.position.set(x, 0.36, -2.2);
-    boardGroup.add(holeTopNeg);
-
-    // Rows F, G, H, I, J (upper bank)
-    for (let r = 0; r < 5; r++) {
-      const z = -0.6 - (r * 0.3);
-      const holeMesh = new THREE.Mesh(holeGeo, holeMat);
-      holeMesh.position.set(x, 0.36, z);
-      boardGroup.add(holeMesh);
-    }
-
-    // Rows A, B, C, D, E (lower bank)
-    for (let r = 0; r < 5; r++) {
-      const z = 0.6 + (r * 0.3);
-      const holeMesh = new THREE.Mesh(holeGeo, holeMat);
-      holeMesh.position.set(x, 0.36, z);
-      boardGroup.add(holeMesh);
-    }
-
-    // Bottom rails
-    const holeBotPos = new THREE.Mesh(holeGeo, holeMat);
-    holeBotPos.position.set(x, 0.36, 2.2);
-    boardGroup.add(holeBotPos);
-
-    const holeBotNeg = new THREE.Mesh(holeGeo, holeMat);
-    holeBotNeg.position.set(x, 0.36, 2.8);
-    boardGroup.add(holeBotNeg);
+  function registerHole(c, rowName, z, nodeId) {
+    const x = (c - 1 - (COLS - 1) / 2) * PITCH;
+    const mesh = new THREE.Mesh(holeGeo, holeMat.clone());
+    mesh.position.set(x, 0.36, z);
+    const key = `${c}_${rowName}`;
+    const info = { col: c, row: rowName, nodeId: nodeId, pos: new THREE.Vector3(x, 0.36, z), mesh: mesh };
+    mesh.userData = info;
+    boardGroup.add(mesh);
+    holeMeshes.push(mesh);
+    holeLookup[key] = info;
   }
 
-  // Metallic Workbench Mat underneath
+  // Create full 30-column grid
+  for (let c = 1; c <= COLS; c++) {
+    // Top rails
+    registerHole(c, 'top_pos', -2.8, 'top_pos');
+    registerHole(c, 'top_neg', -2.2, 'top_neg');
+
+    // Rows J, I, H, G, F (upper bank: one vertical clip)
+    const upperRows = ['row_J', 'row_I', 'row_H', 'row_G', 'row_F'];
+    upperRows.forEach((r, idx) => {
+      registerHole(c, r, -1.8 + idx * 0.3, `col_${c}_upper`);
+    });
+
+    // Rows E, D, C, B, A (lower bank: one vertical clip)
+    const lowerRows = ['row_E', 'row_D', 'row_C', 'row_B', 'row_A'];
+    lowerRows.forEach((r, idx) => {
+      registerHole(c, r, 0.6 + idx * 0.3, `col_${c}_lower`);
+    });
+
+    // Bottom rails
+    registerHole(c, 'bot_pos', 2.2, 'bot_pos');
+    registerHole(c, 'bot_neg', 2.8, 'bot_neg');
+  }
+
+  // Workbench mat underneath
   const benchGeo = new THREE.PlaneGeometry(35, 30);
   const benchMat = new THREE.MeshStandardMaterial({ color: 0x072218, roughness: 0.8, metalness: 0.2 });
   const benchMesh = new THREE.Mesh(benchGeo, benchMat);
@@ -1527,9 +1637,11 @@ function build3DBreadboardChassis() {
   simScene.add(boardGroup);
 }
 
-// 3D Component Generators: Resistor, LED, Wires
-function create3DResistor(startPos, endPos, ohms = 220) {
+// 3D Component Constructors
+function create3DResistor(startInfo, endInfo, ohms = 220) {
   const group = new THREE.Group();
+  const startPos = startInfo.pos;
+  const endPos = endInfo.pos;
 
   const midX = (startPos.x + endPos.x) / 2;
   const midZ = (startPos.z + endPos.z) / 2;
@@ -1537,7 +1649,8 @@ function create3DResistor(startPos, endPos, ohms = 220) {
   const angle = Math.atan2(endPos.z - startPos.z, endPos.x - startPos.x);
 
   // Ceramic Body
-  const bodyGeo = new THREE.CylinderGeometry(0.18, 0.18, Math.max(0.7, dist * 0.6), 16);
+  const bodyLen = Math.max(0.7, Math.min(dist * 0.65, 1.8));
+  const bodyGeo = new THREE.CylinderGeometry(0.18, 0.18, bodyLen, 16);
   const bodyMat = new THREE.MeshStandardMaterial({ color: 0xd9c5a0, roughness: 0.4 });
   const bodyMesh = new THREE.Mesh(bodyGeo, bodyMat);
   bodyMesh.rotation.z = Math.PI / 2;
@@ -1546,51 +1659,54 @@ function create3DResistor(startPos, endPos, ohms = 220) {
   bodyMesh.castShadow = true;
   group.add(bodyMesh);
 
-  // Color Bands (220 ohm: Red, Red, Brown, Gold)
-  const bandColors = [0xd94f42, 0xd94f42, 0x7a4a2b, 0xc9a24b];
-  const bandOffsets = [-0.2, -0.07, 0.06, 0.2];
+  // Color bands
+  const bandColors = ohms === 1000 
+    ? [0x7a4a2b, 0x111111, 0xd94f42, 0xc9a24b] // 1k (Brown, Black, Red, Gold)
+    : [0xd94f42, 0xd94f42, 0x7a4a2b, 0xc9a24b]; // 220 (Red, Red, Brown, Gold)
+
+  const bandOffsets = [-0.22, -0.07, 0.08, 0.22];
   bandColors.forEach((col, idx) => {
-    const bandGeo = new THREE.CylinderGeometry(0.186, 0.186, 0.05, 16);
+    const bandGeo = new THREE.CylinderGeometry(0.186, 0.186, 0.06, 16);
     const bandMat = new THREE.MeshBasicMaterial({ color: col });
     const bandMesh = new THREE.Mesh(bandGeo, bandMat);
     bandMesh.rotation.z = Math.PI / 2;
     bandMesh.rotation.y = -angle;
-    const off = bandOffsets[idx] * (dist * 0.5);
+    const off = bandOffsets[idx] * (bodyLen * 0.8);
     bandMesh.position.set(midX + Math.cos(angle) * off, 0.85, midZ + Math.sin(angle) * off);
     group.add(bandMesh);
   });
 
-  // Silver Metal Leads bending into holes
+  // Metallic bent leads
   const leadMat = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.9, roughness: 0.2 });
 
-  // Curve 1: startPos up to body
   const path1 = new THREE.CatmullRomCurve3([
     new THREE.Vector3(startPos.x, 0.36, startPos.z),
     new THREE.Vector3(startPos.x, 0.85, startPos.z),
-    new THREE.Vector3(midX - Math.cos(angle) * (dist * 0.35), 0.85, midZ - Math.sin(angle) * (dist * 0.35))
+    new THREE.Vector3(midX - Math.cos(angle) * (bodyLen * 0.5), 0.85, midZ - Math.sin(angle) * (bodyLen * 0.5))
   ]);
-  const tube1 = new THREE.Mesh(new THREE.TubeGeometry(path1, 10, 0.035, 8, false), leadMat);
+  const tube1 = new THREE.Mesh(new THREE.TubeGeometry(path1, 8, 0.035, 8, false), leadMat);
   group.add(tube1);
 
-  // Curve 2: body to endPos
   const path2 = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(midX + Math.cos(angle) * (dist * 0.35), 0.85, midZ + Math.sin(angle) * (dist * 0.35)),
+    new THREE.Vector3(midX + Math.cos(angle) * (bodyLen * 0.5), 0.85, midZ + Math.sin(angle) * (bodyLen * 0.5)),
     new THREE.Vector3(endPos.x, 0.85, endPos.z),
     new THREE.Vector3(endPos.x, 0.36, endPos.z)
   ]);
-  const tube2 = new THREE.Mesh(new THREE.TubeGeometry(path2, 10, 0.035, 8, false), leadMat);
+  const tube2 = new THREE.Mesh(new THREE.TubeGeometry(path2, 8, 0.035, 8, false), leadMat);
   group.add(tube2);
 
-  group.userData = { type: 'resistor', ohms: ohms, startPos: startPos, endPos: endPos };
+  group.userData = { type: 'resistor', ohms: ohms, startInfo: startInfo, endInfo: endInfo, label: `${ohms}Ω` };
   return group;
 }
 
-function create3DLED(anodePos, cathodePos, colorHex = 0xff2233) {
+function create3DLED(anodeInfo, cathodeInfo, colorHex = 0xff2233) {
   const group = new THREE.Group();
+  const anodePos = anodeInfo.pos;
+  const cathodePos = cathodeInfo.pos;
   const midX = (anodePos.x + cathodePos.x) / 2;
   const midZ = (anodePos.z + cathodePos.z) / 2;
 
-  // 5mm LED Epoxy Lens (Dome + Cylinder)
+  // 5mm Domed Epoxy Lens
   const domeGeo = new THREE.SphereGeometry(0.3, 16, 16, 0, Math.PI * 2, 0, Math.PI / 2);
   const cylGeo = new THREE.CylinderGeometry(0.3, 0.3, 0.45, 16);
 
@@ -1613,7 +1729,7 @@ function create3DLED(anodePos, cathodePos, colorHex = 0xff2233) {
 
   group.add(domeMesh);
   group.add(cylMesh);
-  ledMeshRef = ledMat;
+  activeLEDMaterials.push(ledMat);
 
   // Inner reflective cathode cup
   const cupGeo = new THREE.ConeGeometry(0.12, 0.15, 8);
@@ -1622,7 +1738,7 @@ function create3DLED(anodePos, cathodePos, colorHex = 0xff2233) {
   cupMesh.position.set(midX, 1.05, midZ);
   group.add(cupMesh);
 
-  // Metal Pins (Anode longer, Cathode shorter)
+  // Leads
   const leadMat = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.9, roughness: 0.2 });
 
   const leadPathA = new THREE.CatmullRomCurve3([
@@ -1643,16 +1759,29 @@ function create3DLED(anodePos, cathodePos, colorHex = 0xff2233) {
 
   ledPointLight.position.set(midX, 1.3, midZ);
 
-  group.userData = { type: 'led', anodePos: anodePos, cathodePos: cathodePos, color: colorHex };
+  let labelStr = 'RED LED';
+  if (colorHex === 0x00ff88) labelStr = 'GREEN LED';
+  else if (colorHex === 0x00f0ff) labelStr = 'BLUE LED';
+
+  group.userData = { type: 'led', anodeInfo: anodeInfo, cathodeInfo: cathodeInfo, color: colorHex, mat: ledMat, label: labelStr };
   return group;
 }
 
-function create3DJumperWire(startPos, endPos, colorHex = 0xff3333) {
+function create3DJumperWire(startInfo, endInfo, colorHex = null) {
   const group = new THREE.Group();
+  const startPos = startInfo.pos;
+  const endPos = endInfo.pos;
   const midX = (startPos.x + endPos.x) / 2;
   const midZ = (startPos.z + endPos.z) / 2;
   const dist = Math.hypot(endPos.x - startPos.x, endPos.z - startPos.z);
   const archHeight = 0.9 + Math.min(1.4, dist * 0.35);
+
+  // Auto-assign wire color based on nodes if not given
+  if (!colorHex) {
+    if (startInfo.nodeId.includes('pos') || endInfo.nodeId.includes('pos')) colorHex = 0xff3333; // Red for +
+    else if (startInfo.nodeId.includes('neg') || endInfo.nodeId.includes('neg')) colorHex = 0x3377ff; // Blue for -
+    else colorHex = 0x00ff88; // Green for signal
+  }
 
   const path = new THREE.CatmullRomCurve3([
     new THREE.Vector3(startPos.x, 0.36, startPos.z),
@@ -1671,7 +1800,7 @@ function create3DJumperWire(startPos, endPos, colorHex = 0xff3333) {
   wireTube.castShadow = true;
   group.add(wireTube);
 
-  // Black terminal rubber sleeves
+  // Terminal rubber sleeves
   const sleeveMat = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.7 });
   const slv1 = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.075, 0.28, 8), sleeveMat);
   slv1.position.set(startPos.x, 0.5, startPos.z);
@@ -1681,18 +1810,629 @@ function create3DJumperWire(startPos, endPos, colorHex = 0xff3333) {
   slv2.position.set(endPos.x, 0.5, endPos.z);
   group.add(slv2);
 
-  group.userData = { type: 'wire', startPos: startPos, endPos: endPos, curve: path };
+  group.userData = { type: 'wire', startInfo: startInfo, endInfo: endInfo, curve: path, label: 'JUMPER WIRE' };
   return group;
 }
 
-// Particle System for Animated Current Flow
-function initFlowParticles() {
+function create3DSwitch(startInfo, endInfo) {
+  const group = new THREE.Group();
+  const startPos = startInfo.pos;
+  const endPos = endInfo.pos;
+  const midX = (startPos.x + endPos.x) / 2;
+  const midZ = (startPos.z + endPos.z) / 2;
+
+  // Switch Body Box
+  const bodyGeo = new THREE.BoxGeometry(0.7, 0.35, 0.45);
+  const bodyMat = new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.4 });
+  const bodyMesh = new THREE.Mesh(bodyGeo, bodyMat);
+  bodyMesh.position.set(midX, 0.7, midZ);
+  group.add(bodyMesh);
+
+  // Switch Toggle Lever
+  const leverGeo = new THREE.CylinderGeometry(0.06, 0.06, 0.45, 8);
+  const leverMat = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.9 });
+  const leverMesh = new THREE.Mesh(leverGeo, leverMat);
+  leverMesh.rotation.z = Math.PI / 4;
+  leverMesh.position.set(midX, 0.95, midZ);
+  group.add(leverMesh);
+
+  // Pins
+  const leadMat = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.9 });
+  const p1 = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.4, 8), leadMat);
+  p1.position.set(startPos.x, 0.5, startPos.z);
+  group.add(p1);
+
+  const p2 = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.4, 8), leadMat);
+  p2.position.set(endPos.x, 0.5, endPos.z);
+  group.add(p2);
+
+  group.userData = { type: 'switch', startInfo: startInfo, endInfo: endInfo, isClosed: true, label: 'SWITCH' };
+  return group;
+}
+
+function create3D9VBattery(startInfo, endInfo) {
+  const group = new THREE.Group();
+  const startPos = startInfo.pos;
+  const endPos = endInfo.pos;
+  const midX = (startPos.x + endPos.x) / 2;
+  const midZ = (startPos.z + endPos.z) / 2;
+
+  // 9V Battery Block
+  const batGeo = new THREE.BoxGeometry(1.2, 1.8, 0.8);
+  const batMat = new THREE.MeshStandardMaterial({ color: 0x1a2b22, roughness: 0.3, metalness: 0.2 });
+  const batMesh = new THREE.Mesh(batGeo, batMat);
+  batMesh.position.set(midX, 1.2, midZ + 1.2);
+  group.add(batMesh);
+
+  // Terminals (+ and -)
+  const clipMat = new THREE.MeshStandardMaterial({ color: 0xc9a24b, metalness: 0.9 });
+  const t1 = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.15, 8), clipMat);
+  t1.position.set(midX - 0.25, 2.15, midZ + 1.2);
+  group.add(t1);
+
+  const t2 = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.15, 6), clipMat);
+  t2.position.set(midX + 0.25, 2.15, midZ + 1.2);
+  group.add(t2);
+
+  // Wires to rails
+  const w1 = create3DJumperWire({ pos: new THREE.Vector3(midX - 0.25, 2.15, midZ + 1.2), nodeId: 'battery_pos' }, startInfo, 0xff3333);
+  group.add(w1);
+
+  const w2 = create3DJumperWire({ pos: new THREE.Vector3(midX + 0.25, 2.15, midZ + 1.2), nodeId: 'battery_neg' }, endInfo, 0x3377ff);
+  group.add(w2);
+
+  group.userData = { type: 'battery_9v', startInfo: startInfo, endInfo: endInfo, label: '9V BATTERY' };
+  return group;
+}
+
+/* ==========================================================================
+   TINKERCAD INTERACTIVE RAYCASTING & MANUAL DRAG-DROP SYSTEM
+   ========================================================================== */
+function setupRaycastInteraction(canvas) {
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+  let isPointerDown = false;
+
+  function getHoleIntersection(event) {
+    const rect = canvas.getBoundingClientRect();
+    const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+    const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+    mouse.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, simCamera);
+    const intersects = raycaster.intersectObjects(holeMeshes);
+    if (intersects.length > 0) {
+      return intersects[0].object.userData;
+    }
+    return null;
+  }
+
+  // Pointer Move (Hover Snap preview)
+  function handlePointerMove(e) {
+    const holeInfo = getHoleIntersection(e);
+    if (holeInfo) {
+      hoverSnapMesh.position.set(holeInfo.pos.x, 0.38, holeInfo.pos.z);
+      hoverSnapMesh.material.opacity = 0.85;
+      hoverSnapMesh.material.color.setHex(activePlacementType ? 0x00ff88 : 0x00f0ff);
+      highlightConnectedHoles(holeInfo.nodeId);
+    } else {
+      hoverSnapMesh.material.opacity = 0;
+      clearConnectedHighlights();
+    }
+  }
+
+  // Pointer Tap / Click (Placement Engine)
+  function handlePointerClick(e) {
+    const holeInfo = getHoleIntersection(e);
+    if (!holeInfo || !activePlacementType) return;
+
+    if (!placementFirstHole) {
+      // Step 1: Select First Pin
+      placementFirstHole = holeInfo;
+      playSound('snap');
+      showToast(`Selected Hole ${holeInfo.col} (${holeInfo.row.replace('row_', '')}) — Click 2nd hole!`);
+      updatePlacementBanner(`Pin 1 set! Click 2nd hole to complete ${activePlacementType.replace('_', ' ').toUpperCase()}`);
+      createPulsingRingAt(holeInfo.pos);
+    } else {
+      // Step 2: Complete Placement between Hole 1 and Hole 2
+      if (placementFirstHole === holeInfo) {
+        showToast('Please select a different hole for the 2nd pin!');
+        return;
+      }
+      completeComponentPlacement(activePlacementType, placementFirstHole, holeInfo);
+      placementFirstHole = null;
+      updatePlacementBanner(null);
+    }
+  }
+
+  canvas.addEventListener('mousemove', handlePointerMove);
+  canvas.addEventListener('touchmove', handlePointerMove, { passive: true });
+
+  canvas.addEventListener('pointerdown', (e) => { isPointerDown = true; });
+  canvas.addEventListener('pointerup', (e) => {
+    if (isPointerDown) {
+      handlePointerClick(e);
+      isPointerDown = false;
+    }
+  });
+}
+
+function selectPaletteComponent(type) {
+  activePlacementType = type;
+  placementFirstHole = null;
+  playSound('click');
+
+  // Highlight selected palette card
+  document.querySelectorAll('.palette-card').forEach(c => {
+    c.classList.toggle('active-selected', c.dataset.comp === type);
+  });
+
+  const prettyName = type.replace('_', ' ').toUpperCase();
+  showToast(`Active Tool: ${prettyName} — Click or Drag onto Breadboard holes!`);
+  updatePlacementBanner(`Click 1st hole to start placing ${prettyName}`);
+}
+
+function updatePlacementBanner(text) {
+  const banner = document.getElementById('simPlacementBanner');
+  const bannerText = document.getElementById('bannerText');
+  if (text) {
+    bannerText.textContent = text;
+    banner.style.display = 'inline-flex';
+  } else {
+    banner.style.display = 'none';
+  }
+}
+
+function completeComponentPlacement(type, hole1, hole2) {
+  playSound('snap');
+  currentCircuitState = 'custom';
+  let compMesh = null;
+
+  if (type === 'resistor_220') {
+    compMesh = create3DResistor(hole1, hole2, 220);
+  } else if (type === 'resistor_1k') {
+    compMesh = create3DResistor(hole1, hole2, 1000);
+  } else if (type === 'led_red') {
+    compMesh = create3DLED(hole1, hole2, 0xff2222);
+  } else if (type === 'led_green') {
+    compMesh = create3DLED(hole1, hole2, 0x00ff88);
+  } else if (type === 'led_blue') {
+    compMesh = create3DLED(hole1, hole2, 0x00f0ff);
+  } else if (type === 'jumper_wire') {
+    compMesh = create3DJumperWire(hole1, hole2);
+  } else if (type === 'switch') {
+    compMesh = create3DSwitch(hole1, hole2);
+  } else if (type === 'battery_9v') {
+    compMesh = create3D9VBattery(hole1, hole2);
+  }
+
+  if (compMesh) {
+    simScene.add(compMesh);
+    simComponents.push(compMesh);
+    userState.circuitsTested++;
+    saveUserState();
+
+    showToast(`Placed ${compMesh.userData.label} on Breadboard!`);
+    clearPlacementRings();
+
+    // If power is currently ON, re-evaluate immediately
+    if (simPowerOn) {
+      evaluateCircuitGraph();
+    }
+  }
+}
+
+function undoLastComponent() {
+  if (simComponents.length === 0) {
+    showToast('No components to undo!');
+    return;
+  }
+  const last = simComponents.pop();
+  simScene.remove(last);
+  playSound('click');
+  showToast(`Removed last component!`);
   clearFlowParticles();
-  if (!simPowerOn || currentCircuitState === 'no_resistor' || currentCircuitState === 'reverse_led' || currentCircuitState === 'clear_board') {
+  if (simPowerOn) evaluateCircuitGraph();
+}
+
+function clearManualBoard() {
+  simComponents.forEach(c => simScene.remove(c));
+  simComponents = [];
+  activeLEDMaterials = [];
+  clearFlowParticles();
+  clearPlacementRings();
+  currentCircuitState = 'clear_board';
+  if (ledPointLight) ledPointLight.intensity = 0;
+  showToast('Breadboard Cleared!');
+  playSound('click');
+}
+
+// Visual Node and Hint Highlighters
+function highlightConnectedHoles(nodeId) {
+  holeMeshes.forEach(m => {
+    if (m.userData.nodeId === nodeId) {
+      m.material.color.setHex(0x00ff88);
+    } else {
+      m.material.color.setHex(0x111613);
+    }
+  });
+}
+
+function clearConnectedHighlights() {
+  holeMeshes.forEach(m => m.material.color.setHex(0x111613));
+}
+
+function createPulsingRingAt(pos) {
+  clearPlacementRings();
+  const ringGeo = new THREE.RingGeometry(0.12, 0.28, 16);
+  const ringMat = new THREE.MeshBasicMaterial({ color: 0xffaa00, side: THREE.DoubleSide });
+  const mesh = new THREE.Mesh(ringGeo, ringMat);
+  mesh.rotation.x = -Math.PI / 2;
+  mesh.position.set(pos.x, 0.38, pos.z);
+  simScene.add(mesh);
+  activeHighlightRings.push(mesh);
+}
+
+function clearPlacementRings() {
+  activeHighlightRings.forEach(r => simScene.remove(r));
+  activeHighlightRings = [];
+}
+
+function showCircuitHint() {
+  playSound('click');
+  showToast('💡 HINT: Follow the highlighted yellow path to complete an LED circuit!');
+  clearPlacementRings();
+
+  // Highlight key steps: + Rail -> Col 10 -> Col 14 -> Col 16 -> - Rail
+  const hintKeys = ['10_top_pos', '10_row_J', '10_row_F', '14_row_F', '14_row_E', '16_row_E', '16_row_A', '16_top_neg'];
+  hintKeys.forEach(k => {
+    if (holeLookup[k]) {
+      createPulsingRingAt(holeLookup[k].pos);
+    }
+  });
+}
+
+// Preset Loader (Working LED, Short Circuit, No Resistor, Reversed, Blank)
+function loadPresetCircuit(presetKey) {
+  currentCircuitState = presetKey;
+  document.querySelectorAll('.sim-presets .preset-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('onclick').includes(presetKey));
+  });
+
+  // Clear existing
+  simComponents.forEach(c => simScene.remove(c));
+  simComponents = [];
+  activeLEDMaterials = [];
+  clearFlowParticles();
+  clearPlacementRings();
+
+  if (presetKey === 'working_led') {
+    const w1 = create3DJumperWire(holeLookup['10_top_pos'], holeLookup['10_row_J'], 0xff3333);
+    simScene.add(w1); simComponents.push(w1);
+
+    const res = create3DResistor(holeLookup['10_row_F'], holeLookup['14_row_F'], 220);
+    simScene.add(res); simComponents.push(res);
+
+    const led = create3DLED(holeLookup['14_row_E'], holeLookup['16_row_E'], 0xff2222);
+    simScene.add(led); simComponents.push(led);
+
+    const w2 = create3DJumperWire(holeLookup['16_row_A'], holeLookup['16_top_neg'], 0x3377ff);
+    simScene.add(w2); simComponents.push(w2);
+
+  } else if (presetKey === 'short_circuit') {
+    const wShort = create3DJumperWire(holeLookup['12_top_pos'], holeLookup['12_top_neg'], 0xffaa00);
+    simScene.add(wShort); simComponents.push(wShort);
+
+  } else if (presetKey === 'no_resistor') {
+    const w1 = create3DJumperWire(holeLookup['12_top_pos'], holeLookup['12_row_J'], 0xff3333);
+    simScene.add(w1); simComponents.push(w1);
+
+    const led = create3DLED(holeLookup['12_row_F'], holeLookup['14_row_F'], 0xff2222);
+    simScene.add(led); simComponents.push(led);
+
+    const w2 = create3DJumperWire(holeLookup['14_row_J'], holeLookup['14_top_neg'], 0x3377ff);
+    simScene.add(w2); simComponents.push(w2);
+
+  } else if (presetKey === 'reverse_led') {
+    const w1 = create3DJumperWire(holeLookup['10_top_pos'], holeLookup['10_row_J'], 0xff3333);
+    simScene.add(w1); simComponents.push(w1);
+
+    const res = create3DResistor(holeLookup['10_row_F'], holeLookup['14_row_F'], 220);
+    simScene.add(res); simComponents.push(res);
+
+    // Reversed: Anode on col 16, Cathode on col 14
+    const led = create3DLED(holeLookup['16_row_E'], holeLookup['14_row_E'], 0xff2222);
+    simScene.add(led); simComponents.push(led);
+
+    const w2 = create3DJumperWire(holeLookup['16_row_A'], holeLookup['16_top_neg'], 0x3377ff);
+    simScene.add(w2); simComponents.push(w2);
+  }
+
+  if (simPowerOn) evaluateCircuitGraph();
+}
+
+/* ==========================================================================
+   POWER TOGGLE & REAL-TIME ELECTRICAL GRAPH EVALUATION (5 CHECKS)
+   ========================================================================== */
+function toggleSimPower() {
+  simPowerOn = !simPowerOn;
+  const btn = document.getElementById('powerToggleBtn');
+  const label = document.getElementById('powerBtnLabel');
+  const badge = document.getElementById('simPowerBadge');
+  const badgeText = document.getElementById('simPowerBadgeText');
+
+  if (simPowerOn) {
+    btn.classList.add('on');
+    label.textContent = 'TOGGLE POWER [ON]';
+    badge.classList.add('active');
+    badgeText.textContent = 'POWER ON (5.00V DC)';
+    playSound('power_on');
+    evaluateCircuitGraph();
+  } else {
+    btn.classList.remove('on');
+    label.textContent = 'TOGGLE POWER [OFF]';
+    badge.classList.remove('active');
+    badgeText.textContent = 'POWER OFF (0.00V)';
+    playSound('click');
+    activeLEDMaterials.forEach(m => {
+      m.emissive.setHex(0x000000);
+      m.emissiveIntensity = 0;
+    });
+    if (ledPointLight) ledPointLight.intensity = 0;
+    clearFlowParticles();
+  }
+}
+
+function evaluateCircuitGraph() {
+  if (!simPowerOn) return;
+
+  // Build Adjacency Graph of Electrical Nodes
+  const adj = {};
+  function addEdge(n1, n2, comp) {
+    if (!adj[n1]) adj[n1] = [];
+    if (!adj[n2]) adj[n2] = [];
+    adj[n1].push({ to: n2, comp: comp });
+    adj[n2].push({ to: n1, comp: comp });
+  }
+
+  let hasResistor = false;
+  let hasLED = false;
+  let hasGapStraddle = false;
+  let straddleComp = null;
+  let ledAnodeNode = null;
+  let ledCathodeNode = null;
+
+  simComponents.forEach(comp => {
+    const data = comp.userData;
+    let n1 = null, n2 = null;
+
+    if (data.type === 'resistor') {
+      n1 = data.startInfo.nodeId;
+      n2 = data.endInfo.nodeId;
+      hasResistor = true;
+      if (data.startInfo.col === data.endInfo.col && 
+          ((data.startInfo.row.startsWith('row_') && data.endInfo.row.startsWith('row_')) && 
+           (data.startInfo.nodeId !== data.endInfo.nodeId))) {
+        hasGapStraddle = true;
+        straddleComp = comp;
+      }
+    } else if (data.type === 'led') {
+      n1 = data.anodeInfo.nodeId;
+      n2 = data.cathodeInfo.nodeId;
+      ledAnodeNode = n1;
+      ledCathodeNode = n2;
+      hasLED = true;
+    } else if (data.type === 'wire') {
+      n1 = data.startInfo.nodeId;
+      n2 = data.endInfo.nodeId;
+    } else if (data.type === 'switch' && data.isClosed) {
+      n1 = data.startInfo.nodeId;
+      n2 = data.endInfo.nodeId;
+    } else if (data.type === 'battery_9v') {
+      n1 = data.startInfo.nodeId;
+      n2 = data.endInfo.nodeId;
+    }
+
+    if (n1 && n2) addEdge(n1, n2, comp);
+  });
+
+  // Check 1: Direct Short Circuit (0Ω path from + to - rails with only wires/switch)
+  const posNodes = ['top_pos', 'bot_pos'];
+  const negNodes = ['top_neg', 'bot_neg'];
+
+  let directShortFound = false;
+  for (let p of posNodes) {
+    for (let n of negNodes) {
+      if (hasDirectWirePath(adj, p, n)) {
+        directShortFound = true;
+        break;
+      }
+    }
+  }
+
+  if (directShortFound) {
+    playSound('short_circuit');
+    clearFlowParticles();
+    showCircuitModal({
+      type: 'error',
+      icon: '⚡',
+      title: 'Short Circuit Detected!',
+      desc: 'You connected + directly to − with no resistance. This would blow your power supply or melt jumper wires.',
+      tipTitle: 'HOW TO FIX IT',
+      tip: 'Add a current-limiting resistor (220Ω) or load component between the power rails before closing the loop.',
+      learnTarget: '#mistakes'
+    });
     return;
   }
 
-  // Create pulsing glow particles along wire paths
+  // Check 2: LED without Current Limiting Resistor (Burnout risk)
+  if (hasLED && !hasResistor && (hasPath(adj, 'top_pos', ledAnodeNode) || hasPath(adj, 'bot_pos', ledAnodeNode))) {
+    playSound('wrong');
+    activeLEDMaterials.forEach(m => {
+      m.emissive.setHex(0xffffff); // burnout flash
+      m.emissiveIntensity = 2.5;
+    });
+    showCircuitModal({
+      type: 'error',
+      icon: '🔥',
+      title: 'LED Burnout Risk!',
+      desc: 'Your LED has no current-limiting resistor. At 5V, this draws ~150mA and destroys the silicon P-N junction in seconds.',
+      tipTitle: 'HOW TO FIX IT',
+      tip: 'Place a 220Ω or 330Ω resistor in series with the LED to absorb excess voltage ($V_R = 5V - 2V = 3V$) and restrict current to safe 14mA.',
+      learnTarget: '#circuit'
+    });
+    return;
+  }
+
+  // Check 3: Gap Straddling warning
+  if (hasGapStraddle) {
+    playSound('wrong');
+    showCircuitModal({
+      type: 'warning',
+      icon: '⚠️',
+      title: 'Gap Straddling Warning!',
+      desc: 'Your component bridges the center trench directly within the same column, connecting the top (F–J) and bottom (A–E) halves together.',
+      tipTitle: 'HOW TO FIX IT',
+      tip: 'The center gap exists to isolate DIP IC pins. Move one leg so components bridge between distinct columns or stay within the same half.',
+      learnTarget: '#anatomy'
+    });
+    return;
+  }
+
+  // Check 4: Reversed LED Polarity
+  if (hasLED && ledCathodeNode && (hasPath(adj, 'top_pos', ledCathodeNode) || hasPath(adj, 'bot_pos', ledCathodeNode))) {
+    playSound('wrong');
+    activeLEDMaterials.forEach(m => {
+      m.emissive.setHex(0x000000);
+      m.emissiveIntensity = 0;
+    });
+    clearFlowParticles();
+    showCircuitModal({
+      type: 'warning',
+      icon: '🔄',
+      title: 'Reversed Polarity!',
+      desc: 'LEDs only conduct electricity in one direction. Your LED’s short leg (cathode) is connected toward the positive rail (+).',
+      tipTitle: 'HOW TO FIX IT',
+      tip: 'Flip the LED 180° so the longer lead (Anode) faces the +5V power rail and the shorter lead (Cathode) returns to Ground.',
+      learnTarget: '#circuit'
+    });
+    return;
+  }
+
+  // Check 5: Closed Circuit vs Open Circuit
+  let hasClosedLoop = false;
+  for (let p of posNodes) {
+    for (let n of negNodes) {
+      if (hasPath(adj, p, n)) {
+        hasClosedLoop = true;
+        break;
+      }
+    }
+  }
+
+  if (hasClosedLoop && hasLED && hasResistor) {
+    // SUCCESS STATE!
+    playSound('correct');
+    activeLEDMaterials.forEach(m => {
+      m.emissive.setHex(0xff2222);
+      m.emissiveIntensity = 1.6;
+    });
+    if (ledPointLight) {
+      ledPointLight.color.setHex(0xff2222);
+      ledPointLight.intensity = 2.5;
+    }
+    initFlowParticles();
+    addXP(20, 'Circuit Working Properly!');
+    showToast('✅ Circuit working! +20 XP');
+
+  } else if (!hasClosedLoop && simComponents.length > 0) {
+    // Open Circuit
+    clearFlowParticles();
+    showCircuitModal({
+      type: 'warning',
+      icon: '🔓',
+      title: 'Open Circuit Loop!',
+      desc: 'Current has no complete conductive path to flow from the + power rail back to the − ground rail.',
+      tipTitle: 'HOW TO FIX IT',
+      tip: 'Trace your loop with your finger from + rail → component → component → - rail. Ensure every pin lands in a shared node column.',
+      learnTarget: '#cheatsheet'
+    });
+  }
+}
+
+// Graph Traversal Helpers
+function hasDirectWirePath(adj, startNode, targetNode) {
+  const visited = new Set();
+  const queue = [startNode];
+  while (queue.length > 0) {
+    const cur = queue.shift();
+    if (cur === targetNode) return true;
+    visited.add(cur);
+    if (adj[cur]) {
+      for (let edge of adj[cur]) {
+        if (!visited.has(edge.to) && (edge.comp.userData.type === 'wire' || edge.comp.userData.type === 'switch')) {
+          queue.push(edge.to);
+        }
+      }
+    }
+  }
+  return false;
+}
+
+function hasPath(adj, startNode, targetNode) {
+  const visited = new Set();
+  const queue = [startNode];
+  while (queue.length > 0) {
+    const cur = queue.shift();
+    if (cur === targetNode) return true;
+    visited.add(cur);
+    if (adj[cur]) {
+      for (let edge of adj[cur]) {
+        if (!visited.has(edge.to)) queue.push(edge.to);
+      }
+    }
+  }
+  return false;
+}
+
+function showCircuitModal({ type, icon, title, desc, tipTitle, tip, learnTarget }) {
+  const backdrop = document.getElementById('simModalBackdrop');
+  const modal = document.getElementById('simModal');
+  modal.className = `sim-modal ${type}`;
+
+  document.getElementById('modalIcon').textContent = icon;
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalDesc').textContent = desc;
+  document.getElementById('modalTipBox').querySelector('strong').textContent = tipTitle;
+  document.getElementById('modalTipText').textContent = tip;
+
+  const learnBtn = document.getElementById('modalLearnMoreBtn');
+  if (learnTarget) {
+    learnBtn.setAttribute('href', learnTarget);
+    learnBtn.style.display = 'inline-flex';
+  } else {
+    learnBtn.style.display = 'none';
+  }
+
+  backdrop.style.display = 'flex';
+}
+
+function closeSimModal() {
+  document.getElementById('simModalBackdrop').style.display = 'none';
+  playSound('click');
+}
+
+function autoFixCircuit() {
+  closeSimModal();
+  loadPresetCircuit('working_led');
+  if (!simPowerOn) toggleSimPower();
+  showToast('Circuit Auto-Fixed to Working LED Model!');
+}
+
+// Current Flow Particle Animator
+function initFlowParticles() {
+  clearFlowParticles();
   simComponents.forEach(comp => {
     if (comp.userData && comp.userData.type === 'wire' && comp.userData.curve) {
       for (let i = 0; i < 4; i++) {
@@ -1716,253 +2456,11 @@ function clearFlowParticles() {
   currentParticles = [];
 }
 
-// Coordinate Helper for Breadboard Rows
-function getHoleCoords(colIdx, rowType) {
-  const x = (colIdx - 1 - (COLS - 1) / 2) * PITCH;
-  let z = 0;
-  if (rowType === 'top_pos') z = -2.8;
-  else if (rowType === 'top_neg') z = -2.2;
-  else if (rowType === 'row_J') z = -1.8;
-  else if (rowType === 'row_F') z = -0.6;
-  else if (rowType === 'row_E') z = 0.6;
-  else if (rowType === 'row_C') z = 1.2;
-  else if (rowType === 'row_A') z = 1.8;
-  else if (rowType === 'bot_pos') z = 2.2;
-  else if (rowType === 'bot_neg') z = 2.8;
-  return new THREE.Vector3(x, 0.36, z);
-}
-
-// Preset Loader
-function loadPresetCircuit(presetKey) {
-  currentCircuitState = presetKey;
-  document.querySelectorAll('.sim-presets .preset-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('onclick').includes(presetKey));
-  });
-
-  // Clear existing components
-  simComponents.forEach(c => simScene.remove(c));
-  simComponents = [];
-  clearFlowParticles();
-
-  // Reset LED Glow
-  if (ledMeshRef) {
-    ledMeshRef.emissive.setHex(0x000000);
-    ledMeshRef.emissiveIntensity = 0;
-  }
-  if (ledPointLight) ledPointLight.intensity = 0;
-
-  if (presetKey === 'working_led') {
-    // 1. Red Jumper from Top (+) Rail to Col 10 (Row J)
-    const w1 = create3DJumperWire(getHoleCoords(10, 'top_pos'), getHoleCoords(10, 'row_J'), 0xff3333);
-    simScene.add(w1); simComponents.push(w1);
-
-    // 2. 220 Ohm Resistor from Col 10 (Row F) to Col 14 (Row F)
-    const res = create3DResistor(getHoleCoords(10, 'row_F'), getHoleCoords(14, 'row_F'), 220);
-    simScene.add(res); simComponents.push(res);
-
-    // 3. Red LED: Anode at Col 14 (Row E), Cathode at Col 16 (Row E)
-    const led = create3DLED(getHoleCoords(14, 'row_E'), getHoleCoords(16, 'row_E'), 0xff2222);
-    simScene.add(led); simComponents.push(led);
-
-    // 4. Blue Jumper from Col 16 (Row A) to Top (-) Rail Col 16
-    const w2 = create3DJumperWire(getHoleCoords(16, 'row_A'), getHoleCoords(16, 'top_neg'), 0x3377ff);
-    simScene.add(w2); simComponents.push(w2);
-
-  } else if (presetKey === 'short_circuit') {
-    // Direct jumper bridging +5V rail directly to GND
-    const wShort = create3DJumperWire(getHoleCoords(12, 'top_pos'), getHoleCoords(12, 'top_neg'), 0xffaa00);
-    simScene.add(wShort); simComponents.push(wShort);
-
-  } else if (presetKey === 'no_resistor') {
-    // LED wired directly between +5V and GND (burnout risk!)
-    const w1 = create3DJumperWire(getHoleCoords(12, 'top_pos'), getHoleCoords(12, 'row_J'), 0xff3333);
-    simScene.add(w1); simComponents.push(w1);
-
-    const led = create3DLED(getHoleCoords(12, 'row_F'), getHoleCoords(14, 'row_F'), 0xff2222);
-    simScene.add(led); simComponents.push(led);
-
-    const w2 = create3DJumperWire(getHoleCoords(14, 'row_J'), getHoleCoords(14, 'top_neg'), 0x3377ff);
-    simScene.add(w2); simComponents.push(w2);
-
-  } else if (presetKey === 'reverse_led') {
-    // LED with reversed polarity (Cathode connected to VCC)
-    const w1 = create3DJumperWire(getHoleCoords(10, 'top_pos'), getHoleCoords(10, 'row_J'), 0xff3333);
-    simScene.add(w1); simComponents.push(w1);
-
-    const res = create3DResistor(getHoleCoords(10, 'row_F'), getHoleCoords(14, 'row_F'), 220);
-    simScene.add(res); simComponents.push(res);
-
-    // Reverse: Anode on col 16, Cathode on col 14
-    const led = create3DLED(getHoleCoords(16, 'row_E'), getHoleCoords(14, 'row_E'), 0xff2222);
-    simScene.add(led); simComponents.push(led);
-
-    const w2 = create3DJumperWire(getHoleCoords(16, 'row_A'), getHoleCoords(16, 'top_neg'), 0x3377ff);
-    simScene.add(w2); simComponents.push(w2);
-  }
-
-  evaluateSimCircuit(false);
-}
-
-// Add component tool actions
-function addComponentToBoard(type) {
-  playSound('click');
-  showToast(`Added ${type.replace('_', ' ').toUpperCase()} to breadboard!`);
-  if (type === 'resistor_220') {
-    const res = create3DResistor(getHoleCoords(18, 'row_A'), getHoleCoords(22, 'row_A'), 220);
-    simScene.add(res); simComponents.push(res);
-  } else if (type === 'led_red') {
-    const led = create3DLED(getHoleCoords(22, 'row_C'), getHoleCoords(24, 'row_C'), 0x00ff88);
-    simScene.add(led); simComponents.push(led);
-  } else if (type === 'jumper_wire') {
-    const w = create3DJumperWire(getHoleCoords(24, 'row_E'), getHoleCoords(24, 'bot_neg'), 0x00f0ff);
-    simScene.add(w); simComponents.push(w);
-  }
-}
-
-// Power Supply Toggle & Circuit Simulation Engine
-function toggleSimPower() {
-  simPowerOn = !simPowerOn;
-  const btn = document.getElementById('powerToggleBtn');
-  const label = document.getElementById('powerBtnLabel');
-  const badge = document.getElementById('simPowerBadge');
-  const badgeText = document.getElementById('simPowerBadgeText');
-
-  if (simPowerOn) {
-    btn.classList.add('on');
-    label.textContent = 'TOGGLE POWER [ON]';
-    badge.classList.add('active');
-    badgeText.textContent = 'POWER ON (5.00V DC)';
-    playSound('power_on');
-    evaluateSimCircuit(true);
-  } else {
-    btn.classList.remove('on');
-    label.textContent = 'TOGGLE POWER [OFF]';
-    badge.classList.remove('active');
-    badgeText.textContent = 'POWER OFF (0.00V)';
-    playSound('click');
-    if (ledMeshRef) {
-      ledMeshRef.emissive.setHex(0x000000);
-      ledMeshRef.emissiveIntensity = 0;
-    }
-    if (ledPointLight) ledPointLight.intensity = 0;
-    clearFlowParticles();
-  }
-}
-
-function evaluateSimCircuit(triggerModal = true) {
-  if (!simPowerOn) return;
-
-  if (currentCircuitState === 'working_led') {
-    // Valid working circuit: LED illuminates brightly!
-    if (ledMeshRef) {
-      ledMeshRef.emissive.setHex(0xff1111);
-      ledMeshRef.emissiveIntensity = 1.4;
-    }
-    if (ledPointLight) {
-      ledPointLight.color.setHex(0xff2222);
-      ledPointLight.intensity = 2.5;
-    }
-    initFlowParticles();
-
-    if (triggerModal) {
-      playSound('correct');
-      addXP(25, 'Successful Circuit Loop Verified!');
-      showCircuitModal({
-        isError: false,
-        icon: '🎉',
-        title: 'Circuit Closed & Operating Normally!',
-        desc: 'Current flows from the +5V rail through the 220Ω current-limiting resistor, enters the LED anode (longer lead), and returns to GND. Current is safely bounded at ~14mA.',
-        tipTitle: 'ECE CALCULATION (OHM’S LAW)',
-        tip: 'Forward current I = (V_supply - V_f) / R = (5.0V - 2.0V) / 220Ω ≈ 13.6 mA. Safe for continuous 20mA LED operation.'
-      });
-    }
-
-  } else if (currentCircuitState === 'short_circuit') {
-    playSound('short_circuit');
-    clearFlowParticles();
-    if (triggerModal) {
-      showCircuitModal({
-        isError: true,
-        icon: '💥',
-        title: 'Fatal Short Circuit Detected!',
-        desc: 'The +5V rail is connected directly to the Ground (0V) rail through a near-zero-resistance jumper wire without any load impedance.',
-        tipTitle: 'WHY THIS HAPPENS & DANGER',
-        tip: 'By Ohm’s Law I = V / R, as R approaches 0, current spikes toward infinity (I > 3A), which triggers bench power supply over-current shutdown or melts plastic insulation.'
-      });
-    }
-
-  } else if (currentCircuitState === 'no_resistor') {
-    playSound('wrong');
-    if (ledMeshRef) {
-      ledMeshRef.emissive.setHex(0xffffff); // blinding flash before burnout
-      ledMeshRef.emissiveIntensity = 2.0;
-    }
-    if (triggerModal) {
-      showCircuitModal({
-        isError: true,
-        icon: '🔥',
-        title: 'LED Burnout Hazard: Missing Resistor!',
-        desc: 'An LED is a non-linear diode with exponential I-V characteristics. Connecting directly across 5V without a current-limiting resistor forces excessive current through the P-N junction.',
-        tipTitle: 'ECE FIX TIP',
-        tip: 'Always place a 220Ω to 470Ω resistor in series with the LED to absorb the excess 3.0V drop and restrict current to safe levels (10–20mA).'
-      });
-    }
-
-  } else if (currentCircuitState === 'reverse_led') {
-    playSound('wrong');
-    if (ledMeshRef) {
-      ledMeshRef.emissive.setHex(0x000000);
-      ledMeshRef.emissiveIntensity = 0;
-    }
-    if (ledPointLight) ledPointLight.intensity = 0;
-    clearFlowParticles();
-
-    if (triggerModal) {
-      showCircuitModal({
-        isError: true,
-        icon: '⛔',
-        title: 'Reverse Diode Polarity (Blocked Current)',
-        desc: 'The LED is seated backwards with its cathode (flat edge / shorter leg) connected to positive voltage (+5V) and its anode connected to ground.',
-        tipTitle: 'P-N JUNCTION BEHAVIOR',
-        tip: 'In reverse bias, the diode depletion region widens, blocking all current flow. Rotate the LED 180° so the longer lead (Anode) faces the +5V source.'
-      });
-    }
-  }
-}
-
-function showCircuitModal({ isError, icon, title, desc, tipTitle, tip }) {
-  const backdrop = document.getElementById('simModalBackdrop');
-  const modal = document.getElementById('simModal');
-  modal.className = isError ? 'sim-modal error' : 'sim-modal';
-
-  document.getElementById('modalIcon').textContent = icon;
-  document.getElementById('modalTitle').textContent = title;
-  document.getElementById('modalDesc').textContent = desc;
-  document.getElementById('modalTipBox').querySelector('strong').textContent = tipTitle;
-  document.getElementById('modalTipText').textContent = tip;
-
-  backdrop.style.display = 'flex';
-}
-
-function closeSimModal() {
-  document.getElementById('simModalBackdrop').style.display = 'none';
-  playSound('click');
-}
-
-function autoFixCircuit() {
-  closeSimModal();
-  loadPresetCircuit('working_led');
-  if (!simPowerOn) toggleSimPower();
-  showToast('Circuit Auto-Fixed to Working LED Model!');
-}
-
 function animate3DSim() {
   requestAnimationFrame(animate3DSim);
-
-  // Update OrbitControls
   if (simControls) simControls.update();
 
-  // Update current flow particles
+  // Current flow motion
   currentParticles.forEach(p => {
     p.t += p.speed;
     if (p.t > 1) p.t = 0;
@@ -2249,7 +2747,6 @@ function getLeaderboardData() {
     list = DEFAULT_LEADERBOARD.slice();
   }
 
-  // Inject current user entry if valid
   const userEntry = {
     name: userState.name || 'You',
     title: getCurrentLevelObj(userState.xp).badge,
@@ -2258,11 +2755,8 @@ function getLeaderboardData() {
     isCurrent: true
   };
 
-  // Remove existing user match if any
   list = list.filter(item => item.name !== userEntry.name);
   list.push(userEntry);
-
-  // Sort descending by XP
   list.sort((a, b) => b.xp - a.xp);
   return list.slice(0, 10);
 }
@@ -2353,8 +2847,8 @@ function initCircuitCanvasBackground() {
       } else {
         ctx.moveTo(l.x, l.y);
         ctx.lineTo(l.x + l.len, l.y);
-        l.x += l.speed;
-        if (l.x > canvas.width) { l.x = -l.len; l.y = Math.random() * canvas.height; }
+        l.y += l.speed;
+        if (l.y > canvas.width) { l.x = -l.len; l.y = Math.random() * canvas.height; }
       }
       ctx.stroke();
 
@@ -2539,7 +3033,7 @@ window.addEventListener('DOMContentLoaded', () => {
     updateResistor();
   }
 
-  // 4. Init 3D Simulator
+  // 4. Init 3D Simulator & Tinkercad Interactive System
   init3DSimulator();
 
   // 5. Init Quiz
